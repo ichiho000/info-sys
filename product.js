@@ -1,44 +1,38 @@
-window.onload = function () {
-  var id = getIdFromQuery();
-  var target = getProductById(id);
-  if (!target) return;
+window.onload = function() {
+var query = location.search;
+var idStart = query.split("=")[1];
+var id = parseInt(idStart,10);
 
-  document.getElementById("product-name").innerHTML = target.name;
-  document.getElementById("product-description").innerHTML = target.description;
-  document.getElementById("product-price").innerHTML = "¥" + target.price;
-  document.getElementById("product-image").src = target.image_url;
-
-  var btn = document.getElementById("add-to-cart");
-  btn.setAttribute("data-id", target.id);
-  btn.onclick = addCart;
-};
-
-function getIdFromQuery() {
-  var s = window.location.search;
-  if (!s) return null;
-  var pair = s.replace("?", "").split("=");
-  return parseInt(pair[1], 10);
-}
-
-function getProductById(id) {
+var product = null;
   for (var i = 0; i < products.length; i++) {
-    if (products[i].id === id) return products[i];
+    if (products[i].id === id) {
+      product = products[i];
+      break;
+    }
   }
-  return null;
+
+if (!product) {
+  alert("商品が見つかりません。");
+  return;
 }
 
-function addCart() {
-  var id = parseInt(this.getAttribute("data-id"), 10);
+document.getElementById("product-image").src = product.image_url;
+document.getElementById("product-image").alt = product.name;
+document.getElementById("product-name").innerText = product.name;
+document.getElementById("product-description").innerText = product.description;
+document.getElementById("product-price").textContent = "¥" + product.price;
+
+document.getElementById("add-to-cart").onclick = function () {
   var cart = [];
-  var store = localStorage.getItem("cart");
-  if (store) {
-    cart = JSON.parse(store);
+  var stored = localStorage.getItem("cart");
+  if (stored) {
+    cart = JSON.parse(stored);
   }
 
   var found = false;
   for (var i = 0; i < cart.length; i++) {
     if (cart[i].id === id) {
-      cart[i].quantity++;
+      cart[i].quantity += 1;
       found = true;
       break;
     }
@@ -49,5 +43,6 @@ function addCart() {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  alert("カートに追加しました");
+  alert("カートに追加しました！");
+  };
 }
