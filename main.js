@@ -24,8 +24,8 @@ window.onload = function(){
     card.appendChild(h2);
     card.appendChild(price);
     card.appendChild(link);
-    
-    list.appendChild(card);
 
+    list.appendChild(card);
+    
   }
 }
