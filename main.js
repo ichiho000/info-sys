@@ -1,57 +1,31 @@
-window.onload = function () {
+window.onload = function(){
   var list = document.getElementById("product-list");
-  if (!list) return;
+  for(var i=0; i<products.length; i++){
+    var product = products[i];
 
-  for (var i = 0; i < products.length; i++) {
-    var p = products[i];
+    var card = document.createElement("div");
+    card.className = "product-card";
 
-    var box = document.createElement("div");
-    box.className = "product-card";
+    var img = document.createElement("img");
+    img.src = product.image_url;
+    img.alt = product.name; 
 
-    var image = document.createElement("img");
-    image.src = p.image_url;
-    image.alt = p.name;
-    box.appendChild(image);
-
-    var name = document.createElement("h2");
-    name.appendChild(document.createTextNode(p.name));
-    box.appendChild(name);
+    var h2 = document.createElement("h2");
+    h2.appendChild(document.createTextNode(product.name));
 
     var price = document.createElement("p");
-    price.appendChild(document.createTextNode("¥" + p.price));
-    box.appendChild(price);
+    price.appendChild(document.createTextNode("¥" + product.price));
 
-    var btn = document.createElement("button");
-    btn.innerHTML = "カートに追加";
-    btn.setAttribute("data-id", p.id);
-    btn.onclick = addCart;
-    box.appendChild(btn);
+    var link = document.createElement("a");
+    link.href = "product.html?id=" + product.id;
+    link.appendChild(document.createTextNode("詳細を見る"));
 
-    list.appendChild(box);
+    card.appendChild(img);
+    card.appendChild(h2);
+    card.appendChild(price);
+    card.appendChild(link);
+    
+    list.appendChild(card);
+
   }
-};
-
-function addCart() {
-  var pid = parseInt(this.getAttribute("data-id"), 10);
-  var cart = [];
-  var temp = localStorage.getItem("cart");
-  if (temp) {
-    cart = JSON.parse(temp);
-  }
-
-  var updated = false;
-  for (var i = 0; i < cart.length; i++) {
-    if (cart[i].id === pid) {
-      cart[i].quantity++;
-      updated = true;
-      break;
-    }
-  }
-
-  if (!updated) {
-    cart.push({ id: pid, quantity: 1 });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("カートに追加されました");
 }
