@@ -17,7 +17,7 @@ window.onload = function () {
     emptyMessage.textContent = "カートが空です。";
     list.appendChild(emptyMessage);
     totalElem.textContent = "";
-    checkoutButton.style.display = "hidden";
+    checkoutButton.style.display = "none";
     return;
   }
 

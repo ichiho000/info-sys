@@ -7,20 +7,22 @@ window.onload = function () {
     var address = document.getElementById("address").value;
 
     if (name === "" || email === "" || address === "") {
-      alert("すべて入力してください。");
+      alert("すべての項目を入力してください。");
       return false;
     }
 
-    var text = "以下で購入しますか？\n\n";
-    text += "名前: " + name + "\n";
-    text += "メール: " + email + "\n";
-    text += "住所: " + address;
+    var confirmMsg = "以下の内容で購入を確定しますか？\n\n" +
+      "名前: " + name + "\n" +
+      "メール: " + email + "\n" +
+      "住所: " + address;
 
-    var ok = confirm(text);
+    var result = confirm(confirmMsg);
 
-    if (ok) {
+    if (result) {
       localStorage.removeItem("cart");
+
       alert("ご購入ありがとうございました！");
+
       location.href = "index.html";
     }
 
